@@ -20,9 +20,10 @@ public class Main extends Application {
         pane.setStyle("-fx-background-color: cyan");
         pane.setOnMousePressed(e -> {
             if (e.getTarget() == e.getSource()) {
-                CustomShape circle = new CustomShape(e.getX(), e.getY(), circles);
+                CustomShape circle = new CustomShape(circles);
                 circles.add(circle);
                 pane.getChildren().add(circle.getCircle());
+                circle.createCircle(e.getX(), e.getY(), circles);
             }
         });
         primaryStage.setTitle("Hello World");
