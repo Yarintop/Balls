@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,12 +21,26 @@ public class Main extends Application {
         pane.setStyle("-fx-background-color: cyan");
         pane.setOnMousePressed(e -> {
             if (e.getTarget() == e.getSource()) {
-                CustomShape circle = new CustomShape(circles);
+                CustomShape circle = new CustomShape(circles, scene.getWidth(), scene.getHeight());
                 circles.add(circle);
                 pane.getChildren().add(circle.getCircle());
                 circle.createCircle(e.getX(), e.getY(), circles);
             }
         });
+        pane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            for (CustomShape c :
+                    circles) {
+                c.checkCollideWithWidth(circles, newValue);
+            }
+        });
+        pane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            for (CustomShape c :
+                    circles) {
+                c.checkCollideWithHeight(circles, newValue);
+            }
+        });
+        primaryStage.setMinWidth(200);
+        primaryStage.setMinHeight(200);
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(scene);
         primaryStage.show();
